@@ -115,6 +115,12 @@ class Post
      */
     private $tags;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Section::class, inversedBy="posts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $section;
+
     public function __construct()
     {
         $this->publishedAt = new \DateTime();
@@ -222,5 +228,17 @@ class Post
     public function getTags(): Collection
     {
         return $this->tags;
+    }
+
+    public function getSection(): ?Section
+    {
+        return $this->section;
+    }
+
+    public function setSection(?Section $section): self
+    {
+        $this->section = $section;
+
+        return $this;
     }
 }

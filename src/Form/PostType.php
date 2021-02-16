@@ -12,8 +12,11 @@
 namespace App\Form;
 
 use App\Entity\Post;
+use App\Entity\Section;
 use App\Form\Type\DateTimePickerType;
 use App\Form\Type\TagsInputType;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -74,6 +77,14 @@ class PostType extends AbstractType
             ->add('tags', TagsInputType::class, [
                 'label' => 'label.tags',
                 'required' => false,
+            ])
+            ->add('section', EntityType::class, [
+                'class' => Section::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.title', 'ASC');
+                },
+                'choice_label' => 'title',
             ])
             // form events let you modify information or fields at different steps
             // of the form handling process.
