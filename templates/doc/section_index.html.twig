@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'section_index' %}
+{% block title %}{{ section.title }}{% endblock %}
+{% block main %}
+
+    {{ section.title }}
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+{% endblock %}

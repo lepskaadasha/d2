@@ -4,8 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Post;
 use App\Entity\Section;
-use App\Form\PostType;
 use App\Form\SectionType;
+use App\Repository\SectionRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -22,10 +22,12 @@ class SectionController extends AbstractController
     /**
      * @Route("/", name="admin_section_index")
      */
-    public function index(): Response
+    public function index(SectionRepository $sectionRepository): Response
     {
-        return $this->render('section/index.html.twig', [
-            'controller_name' => 'SectionController',
+        $list = $sectionRepository->findAll();
+
+        return $this->render('admin/section/index.html.twig', [
+            'sections' => $list,
         ]);
     }
 
@@ -74,6 +76,53 @@ class SectionController extends AbstractController
             'section' => $section,
             'form' => $form->createView(),
         ]);
+    }
+//  IsGranted("edit", subject="section", message="Sections can only be edited by their authors.")
+    /**
+     * Displays a form to edit an existing Section entity.
+     *
+     * @Route("/{id<\d+>}/edit", methods="GET|POST", name="admin_section_edit")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function edit(Request $request, Section $section): Response
+    {
+        $form = $this->createForm(SectionType::class, $section);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'section.updated_successfully');
+
+            //return $this->redirectToRoute('admin_section_edit', ['id' => $section->getId()]);
+            return $this->redirectToRoute('admin_section_index');
+        }
+
+        return $this->render('admin/section/edit.html.twig', [
+            'section' => $section,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Deletes a Section entity.
+     *
+     * @Route("/{id}/delete", methods="POST", name="admin_section_delete")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function delete(Request $request, Section $section): Response
+    {
+        if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
+            return $this->redirectToRoute('admin_section_index');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($section);
+        $em->flush();
+
+        $this->addFlash('success', 'section.deleted_successfully');
+
+        return $this->redirectToRoute('admin_section_index');
     }
 
 }

@@ -12,6 +12,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\Section;
 use App\Entity\Tag;
 use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -52,6 +53,11 @@ class PostRepository extends ServiceEntityRepository
         }
 
         return (new Paginator($qb))->paginate($page);
+    }
+
+    public function findBySection(int $page = 1, Section $section = null ): Paginator
+    {
+       // todo: implement.
     }
 
     /**

@@ -1,20 +1,59 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/layout.html.twig' %}
 
-{% block title %}Hello SectionController!{% endblock %}
+{% block body_id 'admin_section_index' %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block main %}
+    <h1>{{ 'title.section_list'|trans }}</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <table class="table table-striped table-middle-aligned">
+        <thead>
+        <tr>
+            <th scope="col">{{ 'label.title'|trans }}</th>
+            <th scope="col" class="text-center"><i class="fa fa-cogs" aria-hidden="true"></i> {{ 'label.actions'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for section in sections %}
+            <tr>
+                <td>
+                    <div>{{ section.title }}</div>
+                    <i>{{ section.description }}</i>
+                </td>
+                {# it's not mandatory to set the timezone in localizeddate(). This is done to
+                   avoid errors when the 'intl' PHP extension is not available and the application
+                   is forced to use the limited "intl polyfill", which only supports UTC and GMT #}
+               {#  <td>{{ post.publishedAt|format_datetime('medium', 'short', '', 'UTC') }}</td>#}
+                <td class="text-right">
+                    <div class="item-actions">
+                        {#
+                       <a href="{{ path('admin_post_show', {id: post.id}) }}" class="btn btn-sm btn-default">
+                            <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.show'|trans }}
+                        </a>
+   #}
+                        <a href="{{ path('admin_section_edit', {id: section.id}) }}" class="btn btn-sm btn-primary">
+                            <i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit'|trans }}
+                        </a>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/html/src/Controller/SectionController.php'|file_link(0) }}">src/Controller/SectionController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/html/templates/section/index.html.twig'|file_link(0) }}">templates/section/index.html.twig</a></code></li>
-    </ul>
-</div>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" align="center">{{ 'section.no_sections_found'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section actions">
+        <a href="{{ path('admin_section_new') }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i> {{ 'action.create_section'|trans }}
+        </a>
+    </div>
+
+    {{ parent() }}
+
+    {{ show_source_code(_self) }}
 {% endblock %}
