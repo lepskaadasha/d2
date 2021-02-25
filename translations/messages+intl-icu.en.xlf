@@ -355,7 +355,7 @@
       </trans-unit>
       <trans-unit id="JPjzTgz" resname="help.app_description">
         <source>help.app_description</source>
-        <target><![CDATA[This is a <strong>demo application</strong> built in the Symfony Framework to illustrate the recommended way of developing Symfony applications.]]></target>
+        <target><![CDATA[This is a teaching aid for the discipline <strong>"Communication techniques and the basics of team building"</strong>]]></target>
       </trans-unit>
       <trans-unit id="VgeTgE2" resname="help.show_code">
         <source>help.show_code</source>
@@ -480,6 +480,10 @@
       <trans-unit id="pKHcn0n" resname="section.no_sections_found">
         <source>section.no_sections_found</source>
         <target>__section.no_sections_found</target>
+      </trans-unit>
+      <trans-unit id="BDe2u_I" resname="app.website_name">
+        <source>app.website_name</source>
+        <target>Guide</target>
       </trans-unit>
     </body>
   </file>

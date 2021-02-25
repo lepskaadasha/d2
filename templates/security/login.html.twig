@@ -68,12 +68,7 @@
 
             <div id="login-users-help" class="panel panel-default">
                 <div class="panel-body">
-                    <p>
-                        <span class="label label-success">{{ 'note'|trans }}</span>
-                        {{ 'help.reload_fixtures'|trans }}<br/>
 
-                        <code class="console">$ php bin/console doctrine:fixtures:load</code>
-                    </p>
 
                     <p>
                         <span class="label label-success">{{ 'tip'|trans }}</span>
@@ -90,5 +85,4 @@
 {% block sidebar %}
     {{ parent() }}
 
-    {{ show_source_code(_self) }}
 {% endblock %}
