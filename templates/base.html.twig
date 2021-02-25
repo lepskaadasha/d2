@@ -103,6 +103,13 @@
         {% endblock %}
 
         <div class="container body-container">
+            {% block breadcrumb %}
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ path('main') }}">{{ 'Home'|trans }}</a></li>
+                    </ol>
+                </nav>
+            {% endblock %}
             {% block body %}
                 <div class="row">
                     <div id="main" class="col-sm-9">

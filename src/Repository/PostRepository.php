@@ -55,9 +55,15 @@ class PostRepository extends ServiceEntityRepository
         return (new Paginator($qb))->paginate($page);
     }
 
-    public function findBySection(int $page = 1, Section $section = null ): Paginator
+    /**
+     * @return Post[]
+     */
+    public function findBySection(Section $section = null ): array
     {
-       // todo: implement.
+       $posts = $this->findBy([
+           'section' => $section->getId(),
+       ]);
+       return $posts;
     }
 
     /**

@@ -2,9 +2,27 @@
 
 {% block body_id 'section_index' %}
 {% block title %}{{ section.title }}{% endblock %}
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('main') }}">Home</a></li>
+        </ol>
+    </nav>
+{% endblock %}
 {% block main %}
 
-    {{ section.title }}
+   <h1>{{ section.title }}</h1>
+    <section class="post-list">
+        <ul class="post-list--wrapper">
+            {% for post in posts %}
+                <li class="post-item">
+                    <a href="{{ path('post.canonical', {post_slug: post.slug, section_slug: section.slug}) }}">
+                        <h4 class="post-title">{{ post.title }}</h4>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock %}
 
 {% block sidebar %}
