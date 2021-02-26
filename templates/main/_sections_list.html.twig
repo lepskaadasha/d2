@@ -1,28 +1,24 @@
-<section class="text-center">
-    <div class="row mb-4 wow fadeIn">
-        {% for section in sections %}
-            <div class="col-lg-4 col-md-12 mb-4">
-                <div class="card">
+<section class="sections">
+    <div class="mb-4 wow fadeIn">
+         {% for section in sections %}
+            <div class="navigation">
+                 <div class="post-list">
                     <!--Card image-->
-                    <div class="view overlay">
-                        <div class="embed-responsive embed-responsive-16by9 rounded-top">
-                            {#  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/cXTThxoywNQ" allowfullscreen></iframe>#}
-                        </div>
-                    </div>
 
-                    <!--Card content-->
-                    <div class="card-body">
-                        <!--Title-->
-                        <h4 class="card-title">{{ section.title }}</h4>
-                        <a href="{{ path('section.canonical', {slug: section.slug}) }}">
-                            {{ section.title }}
-                        </a>
+
+                    <div class="post-list">
+                        <h3>
+                            <a href="{{ path('section.canonical', {slug: section.slug}) }}">
+                                {{ section.title }}
+                            </a>
+                        </h3>
                         <!--Text-->
-                        {#  <p class="card-text">{{ section.description}}</p>#}
+                        <p class="post-list">{{ section.description}}</p>
                     </div>
-
                 </div>
             </div>
+
         {% endfor %}
+
     </div>
 </section>

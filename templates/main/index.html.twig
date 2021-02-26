@@ -1,21 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}ТКиОК{% endblock %}
 
 {% block body %}
 
 <div class="example-wrapper">
     <h1>Обучающее пособие по учебной дисциплине</h1>
     <p>"Техники коммуникации и основы командообразования"</p>
-    {#
-    This friendly message is coming from:
-
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/html/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/html/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
-   #}
-
     {{ include('main/_sections_list.html.twig') }}
 </div>
 {% endblock %}

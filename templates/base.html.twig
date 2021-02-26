@@ -8,7 +8,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>{% block title %}Symfony Demo application{% endblock %}</title>
+        <title>{% block title %}ТКиОК{% endblock %}</title>
         <link rel="alternate" type="application/rss+xml" title="{{ 'rss.title'|trans }}" href="{{ path('blog_rss') }}">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -42,7 +42,7 @@
 
                                 {% block header_navigation_links %}
                                     <li>
-                                        <a href="{{ path('blog_index') }}">
+                                        <a href="{{ path('main') }}">
                                             <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.homepage'|trans }}
                                         </a>
                                     </li>
@@ -136,21 +136,10 @@
                 <div class="container">
                     <div class="row">
                         <div id="footer-copyright" class="col-md-6">
-                            <p>&copy; {{ 'now'|date('Y') }} - The Symfony Project</p>
-                            <p>{{ 'mit_license'|trans }}</p>
+                            <p>&copy; {{ 'now'|date('Y') }} - Лепская Дарья</p>
                         </div>
                         <div id="footer-resources" class="col-md-6">
-                            <p>
-                                <a href="https://twitter.com/symfony" title="Symfony Twitter">
-                                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                                </a>
-                                <a href="https://www.facebook.com/SensioLabs" title="SensioLabs Facebook">
-                                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                                </a>
-                                <a href="https://symfony.com/blog/" title="Symfony Blog">
-                                    <i class="fa fa-rss" aria-hidden="true"></i>
-                                </a>
-                            </p>
+
                         </div>
                     </div>
                 </div>
