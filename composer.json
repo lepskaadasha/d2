@@ -8,12 +8,13 @@
         "symfony/polyfill-php72": "*"
     },
     "require": {
-        "php": "^7.2.9",
+        "php": "^7.4.14",
         "ext-pdo_sqlite": "*",
         "composer/package-versions-deprecated": "^1.8",
         "doctrine/doctrine-bundle": "^1.12|^2.0",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.5.11",
+        "easycorp/easyadmin-bundle": "^3.2",
         "erusev/parsedown": "^1.6",
         "sensio/framework-extra-bundle": "^5.6",
         "symfony/apache-pack": "^1.0",
