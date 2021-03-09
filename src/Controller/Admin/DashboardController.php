@@ -9,9 +9,11 @@ use App\Entity\Tag;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -58,17 +60,20 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         return [
-          MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+            MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
-          MenuItem::section('Blog'),
-          //MenuItem::linkToCrud('Categories', 'fa fa-tags', Tag::class),
-          MenuItem::linkToCrud('Blog Posts', 'fa fa-file-text', Post::class),
+            MenuItem::section('Blog'),
+            //MenuItem::linkToCrud('Categories', 'fa fa-tags', Tag::class),
+            MenuItem::linkToCrud('Articles', 'fa fa-file-text', Post::class),
+            MenuItem::linkToCrud('Sections', 'fa fa-puzzle-piece', Section::class),
 
-          MenuItem::section('Users'),
-          //MenuItem::linkToCrud('Comments', 'fa fa-comment', Section::class),
-          MenuItem::linkToCrud('Users', 'fa fa-user', User::class),
-          MenuItem::section('Question'),
-          MenuItem::linkToCrud('Question', 'fa fa-question', Question::class),
+            MenuItem::section('Question'),
+            MenuItem::linkToCrud('Question', 'fa fa-question', Question::class),
+
+            MenuItem::section('Users'),
+            MenuItem::linkToCrud('Users', 'fa fa-user', User::class),
+            MenuItem::linkToUrl('Visit public website', 'fa fa-star', '/'),
         ];
     }
+
 }

@@ -25,9 +25,15 @@ class Question
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", cascade={"all"})
      */
     private $answers;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="questions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $post;
 
     public function __construct()
     {
@@ -77,6 +83,18 @@ class Question
                 $answer->setQuestion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): self
+    {
+        $this->post = $post;
 
         return $this;
     }

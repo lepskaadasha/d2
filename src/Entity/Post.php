@@ -121,11 +121,17 @@ class Post
      */
     private $section;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="post")
+     */
+    private $questions;
+
     public function __construct()
     {
         $this->publishedAt = new \DateTime();
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -241,4 +247,40 @@ class Post
 
         return $this;
     }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestions(Question $questions): self
+    {
+        if (!$this->questions->contains($questions)) {
+            $this->questions[] = $questions;
+            $questions->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestions(Question $questions): self
+    {
+        if ($this->questions->removeElement($questions)) {
+            // set the owning side to null (unless already changed)
+            if ($questions->getPost() === $this) {
+                $questions->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle() ?? 'Post #' . $this->getId();
+    }
+
 }
