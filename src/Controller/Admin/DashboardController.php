@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Attachment;
 use App\Entity\Post;
 use App\Entity\Question;
 use App\Entity\Section;
@@ -65,6 +66,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::section('Blog'),
             //MenuItem::linkToCrud('Categories', 'fa fa-tags', Tag::class),
             MenuItem::linkToCrud('Articles', 'fa fa-file-text', Post::class),
+            MenuItem::linkToCrud('Attachment', 'fa fa-file-pdf-o', Attachment::class),
             MenuItem::linkToCrud('Sections', 'fa fa-puzzle-piece', Section::class),
 
             MenuItem::section('Question'),

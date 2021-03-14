@@ -13,6 +13,7 @@ namespace App\Form;
 
 use App\Entity\Post;
 use App\Entity\Section;
+use App\Form\Type\AttachmentType;
 use App\Form\Type\DateTimePickerType;
 use App\Form\Type\TagsInputType;
 use Doctrine\ORM\EntityRepository;
@@ -86,6 +87,7 @@ class PostType extends AbstractType
                 },
                 'choice_label' => 'title',
             ])
+            // ->add('attachment', AttachmentType::class, [])
             // form events let you modify information or fields at different steps
             // of the form handling process.
             // See https://symfony.com/doc/current/form/events.html

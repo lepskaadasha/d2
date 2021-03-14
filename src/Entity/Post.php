@@ -126,12 +126,19 @@ class Post
      */
     private $questions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Attachment::class, mappedBy="post", cascade="persist")
+     */
+    private $attachments;
+
+
     public function __construct()
     {
         $this->publishedAt = new \DateTime();
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->questions = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -281,6 +288,36 @@ class Post
     public function __toString()
     {
         return $this->getTitle() ?? 'Post #' . $this->getId();
+    }
+
+    /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachment $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->removeElement($attachment)) {
+            // set the owning side to null (unless already changed)
+            if ($attachment->getPost() === $this) {
+                $attachment->setPost(null);
+            }
+        }
+
+        return $this;
     }
 
 }

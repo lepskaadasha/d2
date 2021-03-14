@@ -3,8 +3,16 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
+use App\Form\Type\AttachmentType;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class PostCrudController extends AbstractCrudController
 {
@@ -33,15 +41,22 @@ class PostCrudController extends AbstractCrudController
           ;
     }
 
-
-    /*
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
             TextField::new('title'),
-            TextEditorField::new('description'),
+            CollectionField::new('attachments')
+                ->setEntryType(AttachmentType::class)
+                ->onlyOnForms(),
+            TextEditorField::new('content'),
         ];
     }
-    */
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions->add(CRUD::PAGE_INDEX, 'detail');
+    }
+
+
 }
