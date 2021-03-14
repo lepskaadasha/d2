@@ -20,9 +20,36 @@
 
     <p class="post-metadata">
         <span class="metadata"><i class="fa fa-book-open"></i>
-             {{ post.getSection.title }}
+             {{ post.getSection.getTitle }}
         </span>
     </p>
+
+    {% if post.hasAttachments %}
+        <div class="article-attachments">
+            <h3>Конспекты</h3>
+            {% for attachment in post.getAttachments %}
+                <div class="file-item">
+                    {{ include('file/_file_download.html.twig', {
+                        attachment: attachment,
+                        mimetype_icon: 'fa-file-pdf-o',
+                    }, with_context = false) }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if post.hasPresentations %}
+        <div class="article-presentations">
+            <h3>Презентации</h3>
+            {% for presentation in post.getPresentations %}
+                <div class="file-item">
+                    {{ include('file/_file_download.html.twig', {
+                        attachment: presentation,
+                        mimetype_icon: 'fa-file-powerpoint-o',
+                    }, with_context = false) }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
     {{ post.content|markdown_to_html|sanitize_html }}
 
@@ -32,6 +59,7 @@
 {% endblock %}
 
 {% block sidebar %}
+    {#
     {% if is_granted('edit', post) %}
         <div class="section">
             <a class="btn btn-lg btn-block btn-success" href="{{ path('admin_post_edit', {id: post.id}) }}">
@@ -39,6 +67,7 @@
             </a>
         </div>
     {% endif %}
+    #}
 
     {# the parent() function includes the contents defined by the parent template
       ('base.html.twig') for this block ('sidebar'). This is a very convenient way

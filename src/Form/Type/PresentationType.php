@@ -2,13 +2,13 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Attachment;
+use App\Entity\Presentation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
-class AttachmentType extends AbstractType
+class PresentationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -21,7 +21,7 @@ class AttachmentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Attachment::class,
+            'data_class' => Presentation::class,
         ]);
     }
 }

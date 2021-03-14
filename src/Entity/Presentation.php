@@ -2,15 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\AttachmentRepository;
+use App\Repository\PresentationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Entity(repositoryClass=AttachmentRepository::class)
+ * @ORM\Entity(repositoryClass=PresentationRepository::class)
  * @Vich\Uploadable()
  */
-class Attachment
+class Presentation
 {
     /**
      * @ORM\Id
@@ -30,11 +32,6 @@ class Attachment
     private $filename;
 
     /**
-     * @Vich\UploadableField(mapping="attachments", fileNameProperty="filename")
-     */
-    private $file;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $created;
@@ -45,7 +42,17 @@ class Attachment
     private $updated;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="attachments")
+     * @Assert\File(
+     *     maxSize = "30M",
+     *     mimeTypesMessage = "Please upload a valid presentation file"
+     * )
+     * @Vich\UploadableField(mapping="presentations", fileNameProperty="filename")
+     * @var File
+     */
+    private $file;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="presentations")
      */
     private $post;
 
@@ -71,6 +78,7 @@ class Attachment
 
         return $this;
     }
+
     public function getFilename(): ?string
     {
         return $this->filename;

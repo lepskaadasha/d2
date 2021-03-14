@@ -6,6 +6,7 @@ use App\Repository\SectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass=SectionRepository::class)
@@ -42,6 +43,9 @@ class Section
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        if (empty($this->slug)) {
+            $this->slug = Uuid::v4()->toRfc4122();
+        }
     }
 
     public function getId(): ?int
@@ -113,5 +117,10 @@ class Section
         $this->slug = $slug;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 }
