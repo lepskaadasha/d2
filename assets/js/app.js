@@ -9,7 +9,7 @@ import 'bootstrap-sass/assets/javascripts/bootstrap/modal.js';
 import 'jquery'
 
 // loads the code syntax highlighting library
-import './highlight.js';
+// import './highlight.js';
 
 // Creates links to the Symfony documentation
 import './doclinks.js';
