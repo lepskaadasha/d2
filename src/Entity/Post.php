@@ -17,6 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use function Symfony\Component\Translation\t;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  * @ORM\Table(name="post")
@@ -126,12 +128,25 @@ class Post
      */
     private $questions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Attachment::class, mappedBy="post", cascade="persist")
+     */
+    private $attachments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Presentation::class, mappedBy="post", cascade="persist")
+     */
+    private $presentations;
+
+
     public function __construct()
     {
         $this->publishedAt = new \DateTime();
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->questions = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
+        $this->presentations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -281,6 +296,86 @@ class Post
     public function __toString()
     {
         return $this->getTitle() ?? 'Post #' . $this->getId();
+    }
+
+    /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * Has attachments available.
+     *
+     * @return bool
+     */
+    public function hasAttachments(): bool
+    {
+        return !$this->attachments->isEmpty();
+    }
+
+    public function addAttachment(Attachment $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->removeElement($attachment)) {
+            // set the owning side to null (unless already changed)
+            if ($attachment->getPost() === $this) {
+                $attachment->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Presentation[]
+     */
+    public function getPresentations(): Collection
+    {
+        return $this->presentations;
+    }
+
+    /**
+     * Has presentations available.
+     *
+     * @return bool
+     */
+    public function hasPresentations(): bool
+    {
+        return !$this->presentations->isEmpty();
+    }
+
+    public function addPresentation(Presentation $presentation): self
+    {
+        if (!$this->presentations->contains($presentation)) {
+            $this->presentations[] = $presentation;
+            $presentation->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removePresentation(Presentation $presentation): self
+    {
+        if ($this->presentations->removeElement($presentation)) {
+            // set the owning side to null (unless already changed)
+            if ($presentation->getPost() === $this) {
+                $presentation->setPost(null);
+            }
+        }
+
+        return $this;
     }
 
 }

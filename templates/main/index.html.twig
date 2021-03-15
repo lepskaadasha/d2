@@ -2,11 +2,25 @@
 
 {% block title %}ТКиОК{% endblock %}
 
-{% block body %}
+{% block highlighted %}
 
-<div class="example-wrapper">
-    <h1>Обучающее пособие по учебной дисциплине</h1>
-    <p>"Техники коммуникации и основы командообразования"</p>
-    {{ include('main/_sections_list.html.twig') }}
+    <div class="jumbotron">
+        <div class="container">
+            <div class="about-block">
+                <h1>Техники коммуникации и основы командообразования</h1>
+                <span>Обучающее пособие</span>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block main %}
+
+<div class="main-page-wrapper">
+
+    <div class="book-sections">
+        {{ include('main/_sections_list.html.twig') }}
+    </div>
 </div>
 {% endblock %}
