@@ -2,6 +2,9 @@
     "composer/package-versions-deprecated": {
         "version": "1.8.0"
     },
+    "craue/formflow-bundle": {
+        "version": "3.3.2"
+    },
     "dama/doctrine-test-bundle": {
         "version": "4.0",
         "recipe": {

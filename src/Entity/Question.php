@@ -35,9 +35,15 @@ class Question
      */
     private $post;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Exam::class, mappedBy="questions")
+     */
+    private $exams;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
+        $this->exams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,6 +101,33 @@ class Question
     public function setPost(?Post $post): self
     {
         $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exam[]
+     */
+    public function getExams(): Collection
+    {
+        return $this->exams;
+    }
+
+    public function addExam(Exam $exam): self
+    {
+        if (!$this->exams->contains($exam)) {
+            $this->exams[] = $exam;
+            $exam->addQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExam(Exam $exam): self
+    {
+        if ($this->exams->removeElement($exam)) {
+            $exam->removeQuestion($this);
+        }
 
         return $this;
     }

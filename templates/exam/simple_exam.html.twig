@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'simple-exam-from' %}
+
+{% block main %}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_rest(form) }}
+
+    {{ form_end(form) }}
+{% endblock %}

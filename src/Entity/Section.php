@@ -40,12 +40,18 @@ class Section
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Exam::class, mappedBy="section")
+     */
+    private $exams;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         if (empty($this->slug)) {
             $this->slug = Uuid::v4()->toRfc4122();
         }
+        $this->exams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -122,5 +128,35 @@ class Section
     public function __toString()
     {
         return $this->title;
+    }
+
+    /**
+     * @return Collection|Exam[]
+     */
+    public function getExams(): Collection
+    {
+        return $this->exams;
+    }
+
+    public function addExam(Exam $exam): self
+    {
+        if (!$this->exams->contains($exam)) {
+            $this->exams[] = $exam;
+            $exam->setSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExam(Exam $exam): self
+    {
+        if ($this->exams->removeElement($exam)) {
+            // set the owning side to null (unless already changed)
+            if ($exam->getSection() === $this) {
+                $exam->setSection(null);
+            }
+        }
+
+        return $this;
     }
 }

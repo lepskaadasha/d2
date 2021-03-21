@@ -8,6 +8,7 @@ parameters:
     # This parameter defines the codes of the locales (languages) enabled in the application
     app_locales: en|ru
     app.notifications.email_sender: anonymous@example.com
+    app.exam.question_count: 5
 
 services:
     # default configuration for services in *this* file
@@ -39,3 +40,16 @@ services:
     # 'arguments' key and define the arguments just below the service class
     App\EventSubscriber\CommentNotificationSubscriber:
         $sender: '%app.notifications.email_sender%'
+
+    app.form.flow.exam_flow:
+        class: App\Form\ExamFlow
+    App\Form\ExamFlow:
+        class: App\Form\ExamFlow
+        parent: craue.form.flow
+
+    App\Exam\Generator:
+        class: App\Exam\Generator
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@App\Repository\QuestionRepository'
+            - '%app.exam.question_count%'

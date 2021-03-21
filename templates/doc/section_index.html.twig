@@ -26,5 +26,8 @@
 {% endblock %}
 
 {% block sidebar %}
+    {% if app.user %}
+        {{ include('exam/_goto_exam.html.twig', {section: section}, with_context = false)  }}
+    {% endif %}
     {{ parent() }}
 {% endblock %}
