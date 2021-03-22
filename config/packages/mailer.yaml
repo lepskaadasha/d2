@@ -1,3 +1,11 @@
 framework:
     mailer:
-        dsn: '%env(MAILER_DSN)%'
+        transports:
+            main: '%env(MAILER_DSN)%'
+            alternative: '%env(MAILER_DSN_IMPORTANT)%'
+        envelope:
+            sender: 'lepskaadasha@gmail.com'
+        headers:
+            from: 'Fabien <fabien@example.com>'
+            bcc: 'lepskaadasha@gmail.com'
+            X-Custom-Header: 'lepskaadasha'

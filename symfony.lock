@@ -126,6 +126,12 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.2"
     },
+    "ircmaxell/random-lib": {
+        "version": "v1.2.0"
+    },
+    "ircmaxell/security-lib": {
+        "version": "v1.1.0"
+    },
     "jms/metadata": {
         "version": "2.5.0"
     },

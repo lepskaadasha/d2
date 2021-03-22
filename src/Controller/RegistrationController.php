@@ -9,10 +9,12 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use RandomLib\Factory as RandomLibFactory;
 
 class RegistrationController extends AbstractController
 {
@@ -29,13 +31,17 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
-        $user->setPassword('password');
+
+        $factory = new RandomLibFactory();
+        $generator = $factory->getMediumStrengthGenerator();
+        $password = $generator->generateString(8, 'abcdefghijklmnopqrstuvwxyz1234567890');
+        $user->setPassword($password);
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            $randomPassword = 'password';
+            $randomPassword = $password;
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
@@ -48,15 +54,25 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $user->setPlainPassword($password);
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('lepskaadasha@gmail.com', 'Guide Mail Bot'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-            // do anything else you need here, like send an email
+
+            try {
+                $this->emailVerifier->sendEmailConfirmation(
+                    'app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('lepskaadasha@gmail.com', 'Guide Mail Bot'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
+                // do anything else you need here, like send an email
+            } catch (TransportExceptionInterface $e) {
+                // some error prevented the email sending; display an
+                // error message or try to resend the message
+                $this->addFlash('error', 'Email not send!');
+            }
+
 
             return $this->redirectToRoute('homepage');
         }

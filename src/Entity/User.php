@@ -76,6 +76,11 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * @var array
      *
      * @ORM\Column(type="json")
@@ -185,6 +190,14 @@ class User implements UserInterface, \Serializable
     {
         // if you had a plainPassword property, you'd nullify it here
         $this->plainPassword = null;
+    }
+
+    public function getPlainPassword() {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($plainPassword) {
+        return $this->plainPassword = $plainPassword;
     }
 
     /**

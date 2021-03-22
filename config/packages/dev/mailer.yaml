@@ -1,4 +1,8 @@
 framework:
     mailer:
         # this disables delivery of messages entirely
-        dsn: 'null://null'
+        transports:
+            main: '%env(MAILER_DSN)%'
+            alternative: '%env(MAILER_DSN_IMPORTANT)%'
+        envelope:
+            sender: 'lepskaadasha@gmail.com'
