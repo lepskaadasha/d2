@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Attachment;
+use App\Entity\Exam;
 use App\Entity\Post;
 use App\Entity\Question;
 use App\Entity\Section;
@@ -71,13 +72,14 @@ class DashboardController extends AbstractDashboardController
         return [
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
-            MenuItem::section('Blog'),
+            MenuItem::section('Articles'),
             //MenuItem::linkToCrud('Categories', 'fa fa-tags', Tag::class),
             MenuItem::linkToCrud('Articles', 'fa fa-file-text', Post::class),
             MenuItem::linkToCrud('Sections', 'fa fa-puzzle-piece', Section::class),
 
             MenuItem::section('Question'),
             MenuItem::linkToCrud('Question', 'fa fa-question', Question::class),
+            MenuItem::linkToCrud('Exam', 'fa fa-check-double', Exam::class),
 
             MenuItem::section('Users'),
             MenuItem::linkToCrud('Users', 'fa fa-user', User::class),

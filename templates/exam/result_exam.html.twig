@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'simple-exam-result' %}
+
+{% block main %}
+    <h1>Результаты теста по теме "{{ exam.getSection.title }}"</h1>
+    <p class="post-metadata">
+        <span class="metadata"><i class="fa fa-user-graduate"></i>
+             {{ exam.getStudent.getFullName }}
+        </span>
+        <span class="metadata"><i class="fa fa-plus-square"></i>
+             {{ exam.created|date("F jS \\a\\t g:ia") }}
+        </span>
+        <span class="metadata"><i class="fa fa-check-double"></i>
+             {{ exam.completed|date("F jS \\a\\t g:ia") }}
+        </span>
+
+    </p>
+    <div class="content">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <td>Вопрос</td>
+                <td>Баллов</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for question in exam.getQuestions %}
+                {% set trclass = points[question.getId] == 0 ? 'danger' : ''%}
+                <tr class="exam-question-item {{ trclass }}">
+                    <td class="question-text">{{ question.getTitle }}</td>
+                    <td class="question-result">{{ points[question.getId] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>Итого:</td>
+                <td><span>{{ full_points }}</span></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+
+{% endblock %}

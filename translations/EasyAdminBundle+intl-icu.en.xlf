@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="rSWmi1r" resname="label.form.empty_value">
         <source>label.form.empty_value</source>
-        <target>__label.form.empty_value</target>
+        <target>Empty value</target>
       </trans-unit>
     </body>
   </file>

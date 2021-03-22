@@ -6,6 +6,7 @@ use App\Entity\Exam;
 use App\Entity\Post;
 use App\Entity\Section;
 use App\Entity\User;
+use App\Exam\Evaluation;
 use App\Exam\Generator;
 use App\Form\CreateSimpleExamForm;
 use App\Form\ExamFlow;
@@ -95,7 +96,15 @@ class ExamController extends AbstractController
      */
     public function createSimpleExamAction(Request $request, Section $section, Security $security, Generator $examGenerator)
     {
-        $exam = $examGenerator->doExam($section);
+        try {
+            $exam = $examGenerator->doExam($section);
+        }catch (\Exception $e) {
+            $this->addFlash('warning', $e->getMessage());
+            return $this->redirectToRoute('section.canonical', [
+                'slug' => $section->getSlug(),
+            ]);
+        }
+
         $exam->setStudent($this->getUser());
 
         $form = $this->createForm(CreateSimpleExamForm::class, $exam)
@@ -108,7 +117,7 @@ class ExamController extends AbstractController
             $em->persist($exam);
             $em->flush();
 
-            $this->addFlash('success', 'exam.created_successfully');
+            // $this->addFlash('success', 'exam.created_successfully');
 
 
             if ($form->get('save')->isClicked()) {
@@ -137,7 +146,10 @@ class ExamController extends AbstractController
     public function simpleExamAction(Request $request, Exam $exam, Security $security, Generator $examGenerator)
     {
         if ($exam->getCompleted()) {
-            throw new AccessDeniedException('This test has already been completed');
+            return $this->redirectToRoute('simple_exam_result', [
+                'id' => $exam->getId(),
+            ]);
+            // throw new AccessDeniedException('This test has already been completed');
         }
 
         $form = $this->createForm(SimpleExamForm::class, $exam)
@@ -150,11 +162,14 @@ class ExamController extends AbstractController
             $em->persist($exam);
             $em->flush();
 
-            $this->addFlash('success', 'exam.go_successfully');
+            // $this->addFlash('success', 'exam.go_successfully');
+            // $this->addFlash('success', 'exam.final');
 
 
             if ($form->get('save')->isClicked()) {
-                return $this->redirectToRoute('main');
+                return $this->redirectToRoute('simple_exam_result', [
+                    'id' => $exam->getId(),
+                ]);
             }
 
             return $this->redirectToRoute('main');
@@ -162,6 +177,36 @@ class ExamController extends AbstractController
         return $this->render('exam/simple_exam.html.twig', [
             'form' => $form->createView(),
             'exam' => $exam,
+        ]);
+    }
+
+    /**
+     * @Route("/simple/result/{id<\d+>}", methods="GET|POST", name="simple_exam_result")
+     *
+     * @param Request $request
+     * @param Exam $exam
+     * @param Security $security
+     */
+    public function result(Request $request, Exam $exam, Security $security)
+    {
+        $points = $exam->getResultPoints();
+        $fullPoints = 0;
+        foreach ($points as $point) {
+            $fullPoints += $point;
+        }
+        if (!$exam instanceof Exam) {
+            throw new AccessDeniedException('The specified test does not exist');
+        }
+        if (!$exam->getCompleted()) {
+            return $this->redirectToRoute('simple_exam_go', [
+                'id' => $exam->getId(),
+            ]);
+        }
+        return $this->render(
+            'exam/result_exam.html.twig', [
+            'exam' => $exam,
+            'points' => $points,
+            'full_points' => $fullPoints,
         ]);
     }
 }

@@ -131,4 +131,11 @@ class Question
 
         return $this;
     }
+
+    public function getRightAnswers(): Collection
+    {
+        return $this->getAnswers()->filter(static function(Answer $answer){
+            return $answer->getRightAnswer();
+        });
+    }
 }

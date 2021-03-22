@@ -50,7 +50,15 @@ class Generator
         $exam->setSection($section);
         $exam->setCreated(new \DateTime());
 
-        $questions = $this->questionRepository->findByPostIds([1]);
+        $postsIds = [];
+        foreach ($section->getPosts() as $post) {
+            $postsIds[] = $post->getId();
+        }
+
+        $questions = $this->questionRepository->findByPostIds($postsIds);
+        if (count($questions) < $this->question_count) {
+            throw new \Exception('Not enough questions to pass the test');
+        }
         shuffle($questions);
         $randQuestions = array_slice($questions, 0 , $this->question_count);
         foreach ($randQuestions as $question) {

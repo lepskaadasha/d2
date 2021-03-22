@@ -503,7 +503,7 @@
       </trans-unit>
       <trans-unit id="RoKPjQ3" resname="exam.start_description">
         <source>exam.start_description</source>
-        <target>__exam.start_description</target>
+        <target>Press the button to take the test</target>
       </trans-unit>
     </body>
   </file>

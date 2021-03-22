@@ -169,4 +169,71 @@ class Exam
         return $this;
     }
 
+    public function getPoints(): ?float
+    {
+        if (!$this->getCompleted()) {
+            return NULL;
+        }
+        $value = 0;
+        $points = $this->getResultPoints();
+        foreach ($points as $point) {
+            $value += $point;
+        }
+        return $value;
+    }
+
+    public function getPointsPerQuestion()
+    {
+        return 100 / $this->getQuestions()->count();
+    }
+
+    public function getResultPoints()
+    {
+        $pointsByQuestions = [];
+        foreach ($this->getQuestions() as $question) {
+            $point = $this->calcPoints($question);
+            $pointsByQuestions[$question->getId()] = $point;
+        }
+        return $pointsByQuestions;
+    }
+
+    public function getAnswersByQuestion(Question $question): Collection
+    {
+        return $this->getAnswers()->filter(function(Answer $answer) use ($question) {
+            return $answer->getQuestion() instanceof Question
+                && $answer->getQuestion()->getId() === $question->getId();
+        });
+    }
+
+    protected function calcPoints(Question $question)
+    {
+        $rightAnswers = $question->getRightAnswers();
+        $rightAnswersCount = $rightAnswers->count();
+        $answersByQuestion = $this->getAnswersByQuestion($question);
+        $answersByQuestionCount = $answersByQuestion->count();
+
+        $rightCount = 0;
+        $wrongCount = 0;
+        foreach ($rightAnswers as $rightAnswer) {
+            if ($answersByQuestion->contains($rightAnswer)) {
+                $rightCount++;
+            } else {
+                $wrongCount++;
+            }
+        }
+
+        if ($rightCount === $rightAnswersCount) {
+            return $this->getPointsPerQuestion();
+        }
+
+        if ($rightCount === 0 || $wrongCount === $rightAnswersCount) {
+            return 0;
+        }
+
+        if ($rightCount > 0 && $wrongCount > 0) {
+            return $this->getPointsPerQuestion() / 2;
+        }
+        return NULL;
+    }
+
 }
