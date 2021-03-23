@@ -207,33 +207,28 @@ class Exam
 
     protected function calcPoints(Question $question)
     {
-        $rightAnswers = $question->getRightAnswers();
-        $rightAnswersCount = $rightAnswers->count();
         $answersByQuestion = $this->getAnswersByQuestion($question);
-        $answersByQuestionCount = $answersByQuestion->count();
-
-        $rightCount = 0;
-        $wrongCount = 0;
-        foreach ($rightAnswers as $rightAnswer) {
-            if ($answersByQuestion->contains($rightAnswer)) {
-                $rightCount++;
-            } else {
-                $wrongCount++;
-            }
-        }
-
-        if ($rightCount === $rightAnswersCount) {
-            return $this->getPointsPerQuestion();
-        }
-
-        if ($rightCount === 0 || $wrongCount === $rightAnswersCount) {
+        $hasOnlyRight = $answersByQuestion->forAll(
+            static function ($key, $value) {
+                return $value->getRightAnswer();
+        });
+        if (!$hasOnlyRight) {
             return 0;
         }
 
-        if ($rightCount > 0 && $wrongCount > 0) {
-            return $this->getPointsPerQuestion() / 2;
+        $rightAnswers = $question->getRightAnswers();
+        $rightAnswersCount = $rightAnswers->count();
+
+        $rightInAnswers = $answersByQuestion->filter(function(Answer $answer){
+            return $answer->getRightAnswer();
+        });
+        $rightInAnswersCount = $rightInAnswers->count();
+
+        if ($rightInAnswersCount === $rightAnswersCount) {
+            return $this->getPointsPerQuestion();
         }
-        return NULL;
+
+        return $this->getPointsPerQuestion() / $rightAnswersCount * $rightInAnswersCount;
     }
 
 }
