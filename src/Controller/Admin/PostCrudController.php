@@ -7,11 +7,13 @@ use App\Form\Type\AttachmentType;
 use App\Form\Type\PresentationType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -30,7 +32,7 @@ class PostCrudController extends AbstractCrudController
             ->setPageTitle('index', '%entity_label_plural% listing')
 
             // you can pass a PHP closure as the value of the title
-            ->setPageTitle('new', fn () => new \DateTime('now') > new \DateTime('today 13:00') ? 'New dinner' : 'New lunch')
+            ->setPageTitle('new', 'New Post')
 
             // in DETAIL and EDIT pages, the closure receives the current entity
             // as the first argument
@@ -59,6 +61,9 @@ class PostCrudController extends AbstractCrudController
                 ->onlyOnForms(),
             TextEditorField::new('content')
                 ->hideOnIndex(),
+            TextareaField::new('summary')
+                ->hideOnIndex(),
+            AssociationField::new('author'),
         ];
     }
 
@@ -67,5 +72,12 @@ class PostCrudController extends AbstractCrudController
         return $actions->add(CRUD::PAGE_INDEX, 'detail');
     }
 
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('id')
+            ->add('section')
+            ;
+    }
 
 }

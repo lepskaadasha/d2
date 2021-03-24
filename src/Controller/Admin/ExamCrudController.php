@@ -42,7 +42,8 @@ class ExamCrudController extends AbstractCrudController
     {
         return $actions
             ->remove(Crud::PAGE_DETAIL, Action::EDIT)
-            ->remove(Crud::PAGE_INDEX, Action::EDIT);
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->remove(Crud::PAGE_INDEX, Action::NEW);
     }
 
     public function configureFilters(Filters $filters): Filters

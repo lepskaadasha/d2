@@ -499,11 +499,15 @@
       </trans-unit>
       <trans-unit id="mMdg0uH" resname="menu.login">
         <source>menu.login</source>
-        <target>__menu.login</target>
+        <target>Log in</target>
       </trans-unit>
       <trans-unit id="RoKPjQ3" resname="exam.start_description">
         <source>exam.start_description</source>
         <target>Press the button to take the test</target>
+      </trans-unit>
+      <trans-unit id="1slVsoT" resname="menu.register">
+        <source>menu.register</source>
+        <target>Register</target>
       </trans-unit>
     </body>
   </file>

@@ -495,15 +495,19 @@
       </trans-unit>
       <trans-unit id="56iqLff" resname="Anonymous">
         <source>Anonymous</source>
-        <target>__Anonymous</target>
+        <target>Аноним</target>
       </trans-unit>
       <trans-unit id="mMdg0uH" resname="menu.login">
         <source>menu.login</source>
-        <target>__menu.login</target>
+        <target>Вход</target>
       </trans-unit>
       <trans-unit id="RoKPjQ3" resname="exam.start_description">
         <source>exam.start_description</source>
         <target>Нажмите кнопку для прохождения теста</target>
+      </trans-unit>
+      <trans-unit id="1slVsoT" resname="menu.register">
+        <source>menu.register</source>
+        <target>Регистрация</target>
       </trans-unit>
     </body>
   </file>

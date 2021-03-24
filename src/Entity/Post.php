@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use function Symfony\Component\Translation\t;
@@ -147,6 +148,9 @@ class Post
         $this->questions = new ArrayCollection();
         $this->attachments = new ArrayCollection();
         $this->presentations = new ArrayCollection();
+        if (empty($this->slug)) {
+            $this->slug = Uuid::v4()->toRfc4122();
+        }
     }
 
     public function getId(): ?int
