@@ -14,7 +14,9 @@ class PresentationType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('file', VichFileType::class)
+            ->add('file', VichFileType::class, [
+                'allow_delete' => false,
+            ])
         ;
     }
 
